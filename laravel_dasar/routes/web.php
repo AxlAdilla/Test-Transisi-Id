@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/login','SimpleAuthController@authenticate')->name('loginPost');
+
+Route::get('/login', 'SimpleAuthController@login')->name('login');
+Route::get('/logout', 'SimpleAuthController@logout')->name('logout');

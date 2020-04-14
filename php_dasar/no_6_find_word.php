@@ -17,13 +17,6 @@ function cari(Array $arr,String $words):bool{
             break;
         }
     }
-
-
-    if($isThere){
-        print_r("true\n");
-    }else{
-        print_r("false\n");
-    }
     return $isThere; 
 }
 

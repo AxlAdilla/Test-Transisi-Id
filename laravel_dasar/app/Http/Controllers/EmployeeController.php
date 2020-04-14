@@ -4,9 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Employee;
+use App\Domains\Company\CompanyService;
+use App\Domains\Employee\EmployeeService;
+use App\Http\Requests\Employee\StoreEmployeePost;
+use App\Http\Requests\Employee\UpdateEmployeePost;
 
 class EmployeeController extends Controller
 {
+    private $employeeService;
+
+    private $companyService;
+
+    public function __construct(EmployeeService $employeeService,CompanyService $companyService){
+        $this->employeeService = $employeeService;
+        $this->companyService = $companyService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +26,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        $employees = $this->employeeService->indexEmployee();
+        return view('employee.index',compact('employees'));
     }
 
     /**
@@ -24,7 +37,8 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        $companies = $this->companyService->indexCompanies();
+        return view('employee.create',compact('companies'));
     }
 
     /**
@@ -33,9 +47,11 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEmployeePost $request)
     {
         //
+        $employee = $this->employeeService->storeEmployee($request->all());
+        return redirect(route('employee.index'));
     }
 
     /**
@@ -46,7 +62,8 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        //
+        $employee = $this->employeeService->showEmployee($id);
+        return view('employee.show',compact('employee'));
     }
 
     /**
@@ -57,7 +74,9 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $companies = $this->companyService->indexCompanies();
+        $employee = $this->employeeService->showEmployee($id);
+        return view('employee.edit',compact(['companies','employee']));
     }
 
     /**
@@ -67,9 +86,10 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateEmployeePost $request, $id)
     {
-        //
+        $employee = $this->employeeService->updateEmployee($request->all(), $id);
+        return redirect(route('employee.index'));
     }
 
     /**
@@ -80,6 +100,7 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $employee = $this->employeeService->destroyEmployee($id);
+        return redirect(route('employee.index'));
     }
 }

@@ -5,11 +5,11 @@
     <div class="row justify-content-center">
         <div class="col-sm-12">
             <div class="card">
-                <div class="card-header">Company</div>
+                <div class="card-header">Employee</div>
 
                 <div class="card-body">
                     <div class="d-flex flex-row justify-content-end">
-                        <a href="{{route('company.create')}}" class="btn btn-primary my-2">+ Tambah</a>
+                        <a href="{{route('employee.create')}}" class="btn btn-primary my-2">+ Tambah</a>
                     </div>
                     <table class="table table-striped table-responsive">
                         <thead class="text-center">
@@ -17,29 +17,27 @@
                                 <th>#</td>
                                 <th>ID</td>
                                 <th>Nama</td>
+                                <th>Company</td>
                                 <th>Email</td>
-                                <th>Logo</td>
-                                <th>Website</td>
                                 <th>Dibuat Pada</td>
                                 <th>Diubah Pada</td>
                                 <th colspan="3">Aksi</td>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($companies as $company)
+                            @forelse($employees as $employee)
                             <tr>
-                                <td>{{$loop->iteration+($companies->perpage()*($companies->currentpage()-1))}}</td>
-                                <td>{{$company->id}}</td>
-                                <td>{{$company->name}}</td>
-                                <td>{{$company->email}}</td>
-                                <td><img src="{{asset('storage/company/'.$company->logo)}}" width="50" height="50" alt="{{$company->name}}"></td>
-                                <td>{{$company->website}}</td>
-                                <td>{{$company->created_at->diffForHumans()}}</td>
-                                <td>{{$company->updated_at->diffForHumans()}}</td>
-                                <td><a href="{{route('company.show',['company'=>$company->id])}}" class="btn btn-info btn-sm">DETAIL</a></td>
-                                <td><a href="{{route('company.edit',['company'=>$company->id])}}" class="btn btn-primary btn-sm">EDIT</a></td>
+                                <td>{{$loop->iteration+($employees->perpage()*($employees->currentpage()-1))}}</td>
+                                <td>{{$employee->id}}</td>
+                                <td>{{$employee->name}}</td>
+                                <td>{{$employee->company->name}}</td>
+                                <td>{{$employee->email}}</td>
+                                <td>{{$employee->created_at->diffForHumans()}}</td>
+                                <td>{{$employee->updated_at->diffForHumans()}}</td>
+                                <td><a href="{{route('employee.show',['employee'=>$employee->id])}}" class="btn btn-info btn-sm">DETAIL</a></td>
+                                <td><a href="{{route('employee.edit',['employee'=>$employee->id])}}" class="btn btn-primary btn-sm">EDIT</a></td>
                                 <td>
-                                    <form action="{{route('company.destroy',['company'=>$company->id])}}" method="post">
+                                    <form action="{{route('employee.destroy',['employee'=>$employee->id])}}" method="post">
                                         @csrf
                                         <input type="hidden" name="_method" value="DELETE">
                                         <button class="btn btn-danger btn-sm">DELETE</button>
@@ -56,7 +54,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="d-flex justify-content-center">
-                        {{ $companies->links() }}
+                        {{ $employees->links() }}
                     </div>
                 </div>
             </div>

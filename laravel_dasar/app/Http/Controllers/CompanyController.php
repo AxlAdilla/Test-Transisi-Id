@@ -60,8 +60,8 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        //
-        return 'show';
+        $company = $this->companyService->showCompany($id);
+        return view('company.show',compact('company'));
     }
 
     /**

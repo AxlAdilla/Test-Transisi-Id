@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('auth')->group(function(){
-    Route::get('/', function () {
-        return view('dashboard');
-    });
+    Route::get('/','DashboardController@index');
     Route::resource('company','CompanyController');
     Route::resource('employee','EmployeeController');
 });

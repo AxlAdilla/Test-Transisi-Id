@@ -4,17 +4,29 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Company;
+use App\Domains\Company\CompanyService;
+use App\Http\Requests\Company\StoreCompanyPost;
+use App\Http\Requests\Company\UpdateCompanyPost;
 
 class CompanyController extends Controller
 {
+    private $companyService;
+
+    public function __construct(CompanyService $companyService){
+        $this->companyService = $companyService;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    
+
     public function index()
     {
-        //
+        $companies = $this->companyService->indexCompanies();
+        return view('company.index',compact('companies'));
     }
 
     /**
@@ -25,6 +37,7 @@ class CompanyController extends Controller
     public function create()
     {
         //
+        return view('company.create');
     }
 
     /**
@@ -33,9 +46,10 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCompanyPost $request)
     {
-        //
+        $company = $this->companyService->storeCompany($request->all());
+        return redirect(route('company.index'));
     }
 
     /**
@@ -47,6 +61,7 @@ class CompanyController extends Controller
     public function show($id)
     {
         //
+        return 'show';
     }
 
     /**
@@ -57,7 +72,8 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        //
+        $company = $this->companyService->showCompany($id);
+        return view('company.edit',compact('company'));
     }
 
     /**
@@ -67,9 +83,10 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCompanyPost $request, $id)
     {
-        //
+        $company = $this->companyService->updateCompany($request->all(), $id);
+        return redirect(route('company.index'));
     }
 
     /**
@@ -80,6 +97,7 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $company = $this->companyService->destroyCompany($id);
+        return redirect(route('company.index'));
     }
 }

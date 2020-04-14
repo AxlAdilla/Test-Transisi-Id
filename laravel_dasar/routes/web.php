@@ -17,7 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/login','SimpleAuthController@authenticate')->name('loginPost');
+Route::middleware('auth')->group(function(){
+    Route::resource('company','CompanyController');
+    Route::resource('employee','EmployeeController');
+});
 
+Route::post('/login','SimpleAuthController@authenticate')->name('loginPost');
 Route::get('/login', 'SimpleAuthController@login')->name('login');
 Route::get('/logout', 'SimpleAuthController@logout')->name('logout');
